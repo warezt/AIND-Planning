@@ -96,6 +96,7 @@ class Node:
 
     def expand(self, problem):
         "List the nodes reachable in one step from this node."
+        var1=problem.actions(self.state) #FORTEST
         return [self.child_node(problem, action)
                 for action in problem.actions(self.state)]
 
@@ -217,6 +218,7 @@ def best_first_graph_search(problem, f):
         if problem.goal_test(node.state):
             return node
         explored.add(node.state)
+        var1=node.expand(problem) #FORTEST
         for child in node.expand(problem):
             if child.state not in explored and child not in frontier:
                 frontier.append(child)
@@ -272,7 +274,9 @@ def astar_search(problem, h=None):
     """A* search is best-first graph search with f(n) = g(n)+h(n).
     You need to specify the h function when you call astar_search, or
     else in your Problem subclass."""
+    var1=h #WAREZT TEST
     h = memoize(h or problem.h, 'h')
+    var2=h #WAREZT TEST
     return best_first_graph_search(problem, lambda n: n.path_cost + h(n))
 
 # ______________________________________________________________________________

@@ -5,6 +5,8 @@ from aimacode.search import (breadth_first_search, astar_search,
     breadth_first_tree_search, depth_first_graph_search, uniform_cost_search,
     greedy_best_first_graph_search, depth_limited_search,
     recursive_best_first_search)
+#FORTEST START
+
 from my_air_cargo_problems import air_cargo_p1, air_cargo_p2, air_cargo_p3
 
 PROBLEM_CHOICE_MSG = """
@@ -38,6 +40,7 @@ SEARCHES = [["breadth_first_search", breadth_first_search, ""],
             ['astar_search', astar_search, 'h_pg_levelsum'],
             ]
 
+#FORTEST END
 
 class PrintableProblem(InstrumentedProblem):
     """ InstrumentedProblem keeps track of stats during search, and this

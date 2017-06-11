@@ -29,14 +29,12 @@ And a few other functions:
     unify            Do unification of two FOL sentences
     diff, simp       Symbolic differentiation and simplification
 """
-
 from .utils import (
     removeall, unique, first, isnumber, issequence, Expr, expr, subexpressions
 )
 
 import itertools
 from collections import defaultdict
-
 # ______________________________________________________________________________
 
 

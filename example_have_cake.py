@@ -5,6 +5,7 @@ from aimacode.search import (
     uniform_cost_search, greedy_best_first_graph_search, Problem,
 )
 from aimacode.utils import expr
+
 from lp_utils import (
     FluentState, encode_state, decode_state
 )
@@ -46,9 +47,11 @@ class HaveCakeProblem(Problem):
             for clause in action.precond_pos:
                 if clause not in kb.clauses:
                     is_possible = False
+        #If action do not have positive precon in kb; make it impossible
             for clause in action.precond_neg:
                 if clause in kb.clauses:
                     is_possible = False
+        #If kb has clause that is negative precondition for action; make that action impossible
             if is_possible:
                 possible_actions.append(action)
         return possible_actions
@@ -59,22 +62,47 @@ class HaveCakeProblem(Problem):
         for fluent in old_state.pos:
             if fluent not in action.effect_rem:
                 new_state.pos.append(fluent)
+        #Check if current fluent could persist or not by seeing if effect_rem will impact current fluent
         for fluent in action.effect_add:
             if fluent not in new_state.pos:
                 new_state.pos.append(fluent)
+        #If add effect from action not in new state fluent, add it
         for fluent in old_state.neg:
             if fluent not in action.effect_add:
                 new_state.neg.append(fluent)
+        #Identify if negative fluent that could not be effect_add by action?
         for fluent in action.effect_rem:
             if fluent not in new_state.neg:
                 new_state.neg.append(fluent)
+        #Make sure remove effect from action is put into fluent of next state
         return encode_state(new_state, self.state_map)
 
     def goal_test(self, state: str) -> bool:
         kb = PropKB()
+        #Test Section Start
+        '''
+        print('state{}'.format(state))
+        var1=decode_state(state,self.state_map)
+        print('output decode_state {}'.format(var1))
+        var2=var1.pos_sentence()
+        print('only pos_sentence() {}'.format(var2))        \
+        '''
+        #Test Section End
         kb.tell(decode_state(state, self.state_map).pos_sentence())
+                
         for clause in self.goal:
+            #Test Section Start
+            '''
+            print('goal {}'.format(self.goal))
+            print('clause {}'.format(clause))
+            '''
+            #Test Section End
             if clause not in kb.clauses:
+                #Test Section Start
+                '''
+                print('kb.clauses{}'.format(kb.clauses))
+                '''
+                #Test Section End
                 return False
         return True
 
@@ -129,17 +157,17 @@ if __name__ == '__main__':
     for g in p.goal:
         print('   {}'.format(g))
     print()
-    print("*** Breadth First Search")
-    run_search(p, breadth_first_search)
-    print("*** Depth First Search")
-    run_search(p, depth_first_graph_search)
-    print("*** Uniform Cost Search")
-    run_search(p, uniform_cost_search)
-    print("*** Greedy Best First Graph Search - null heuristic")
-    run_search(p, greedy_best_first_graph_search, parameter=p.h_1)
+    #print("*** Breadth First Search")
+    #run_search(p, breadth_first_search)
+    #print("*** Depth First Search")
+    #run_search(p, depth_first_graph_search)
+    #print("*** Uniform Cost Search")
+    #run_search(p, uniform_cost_search)
+    #print("*** Greedy Best First Graph Search - null heuristic")
+    #run_search(p, greedy_best_first_graph_search, parameter=p.h_1)
     print("*** A-star null heuristic")
     run_search(p, astar_search, p.h_1)
-    # print("A-star ignore preconditions heuristic")
-    # rs(p, "astar_search - ignore preconditions heuristic", astar_search, p.h_ignore_preconditions)
-    # print(""A-star levelsum heuristic)
-    # rs(p, "astar_search - levelsum heuristic", astar_search, p.h_pg_levelsum)
+    print("A-star ignore preconditions heuristic")
+    run_search(p, astar_search, p.h_ignore_preconditions) #"astar_search - ignore preconditions heuristic",
+    print("A-star levelsum heuristic")
+    run_search(p, astar_search, p.h_pg_levelsum) #, "astar_search - levelsum heuristic"
