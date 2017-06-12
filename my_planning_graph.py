@@ -99,9 +99,9 @@ class PgNode_s(PgNode):
 
     def __hash__(self):
         self.__hash = self.__hash or hash(self.symbol) ^ hash(self.is_pos)
-        var1=self.__hash    #FORTEST
-        var2=hash(self.symbol)  #FORTEST   
-        var3=hash(self.is_pos)  #FORTEST
+        #var1=self.__hash    #FORTEST
+        #var2=hash(self.symbol)  #FORTEST   
+        #var3=hash(self.is_pos)  #FORTEST
         return self.__hash
 
 
@@ -222,9 +222,9 @@ class PlanningGraph():
         self.fs = decode_state(state, problem.state_map)
         self.serial = serial_planning
         self.all_actions = self.problem.actions_list + self.noop_actions(self.problem.state_map)
-        var1=self.problem.actions_list  #FORTEST
-        var2=self.problem.state_map #FORTEST
-        var3=self.noop_actions(self.problem.state_map) #FORTEST
+        #var1=self.problem.actions_list  #FORTEST
+        #var2=self.problem.state_map #FORTEST
+        #var3=self.noop_actions(self.problem.state_map) #FORTEST
         self.s_levels = []
         self.a_levels = []
         self.create_graph()
@@ -281,10 +281,10 @@ class PlanningGraph():
         level = 0
         self.s_levels.append(set())  # S0 set of s_nodes - empty to start
         # for each fluent in the initial state, add the correct literal PgNode_s
-        var1=self.fs.pos    #FORTEST
-        var2=self.s_levels[level]   #FORTEST
+        #var1=self.fs.pos    #FORTEST
+        #var2=self.s_levels[level]   #FORTEST
         for literal in self.fs.pos:
-            var3=PgNode_s(literal, True)    #FORTEST
+            #var3=PgNode_s(literal, True)    #FORTEST
             self.s_levels[level].add(PgNode_s(literal, True))
             
         for literal in self.fs.neg:
@@ -295,15 +295,15 @@ class PlanningGraph():
         # i.e. until it is "leveled"
         while not leveled:
             self.add_action_level(level)
-            var4=self.a_levels[level]   #FORTEST
+            #var4=self.a_levels[level]   #FORTEST
             self.update_a_mutex(self.a_levels[level])
-            var5=self #FORTEST
+            #var5=self #FORTEST
 
             level += 1
             self.add_literal_level(level)
-            var6=self.s_levels[level]   #FORTEST
+            #var6=self.s_levels[level]   #FORTEST
             self.update_s_mutex(self.s_levels[level])
-            var7=self
+            #var7=self #FORTEST
             if self.s_levels[level] == self.s_levels[level - 1]:
                 leveled = True
 
@@ -324,17 +324,17 @@ class PlanningGraph():
         #   to see if a proposed PgNode_a has prenodes that are a subset of the previous S level.  Once an
         #   action node is added, it MUST be connected to the S node instances in the appropriate s_level set.
         addableaction = [] 
-        var1=self.all_actions   #FORTEST
+        #var1=self.all_actions   #FORTEST
         for action in self.all_actions:
             # First, list all available action for current state
             node_a = PgNode_a(action)
             # Check precondition if it is in subset of S_levels
-            var2=self.s_levels[level]   #FORTEST
+            #var2=self.s_levels[level]   #FORTEST
             if node_a.prenodes.issubset(self.s_levels[level]):
                 # If action precondition is subset, add it to addable action
-                var3=node_a #FORTEST
+                #var3=node_a #FORTEST
                 addableaction.append(node_a)
-                var4=self.s_levels[level]   #FORTEST
+                #var4=self.s_levels[level]   #FORTEST
                 for node_s in self.s_levels[level]:
                     node_s.children.add(node_a)
                     # Connect action node as children of node_s
@@ -362,10 +362,10 @@ class PlanningGraph():
         #   parent sets of the S nodes
 
         addableliteral = set()  #Create class as set will help deleting duplicates
-        var1=self.a_levels[level - 1]   #FORTEST
+        #var1=self.a_levels[level - 1]   #FORTEST
         for node_a in self.a_levels[level - 1]:
             # First, list all action in previous level (as number is S0=>A0=>S1=>A1=>...
-            var2=node_a.effnodes    #FORTEST
+            #var2=node_a.effnodes    #FORTEST
             for node_s in node_a.effnodes:
                 # Then, list the set of *possible* child S-nodes given that action, then add it to addableliteral
                                 # Make the preceding level's action node a parent of this reachable effect node
@@ -435,15 +435,15 @@ class PlanningGraph():
         """
         # TODO test for Inconsistent Effects between nodes
         #Check if node_a1 add effect is listed in remove effect of node_a2
-        var1=node_a1.action.effect_add #FORTEST
+        #var1=node_a1.action.effect_add #FORTEST
         for effect in node_a1.action.effect_add:
-            var2=node_a2.action.effect_rem #FORTEST
+            #var2=node_a2.action.effect_rem #FORTEST
             if effect in node_a2.action.effect_rem:
                 return True
         #Check if node_a2 add effect is listed in remove effect of node_a1
-        var3=node_a2.action.effect_add #FORTEST
+        #var3=node_a2.action.effect_add #FORTEST
         for effect in node_a2.action.effect_add:
-            var4=node_a1.action.effect_rem #FORTEST
+            #var4=node_a1.action.effect_rem #FORTEST
             if effect in node_a1.action.effect_rem:
                 return True
         return False
@@ -494,9 +494,9 @@ class PlanningGraph():
 
         # TODO test for Competing Needs between nodes
         #Check if precondition of node_a1 and precondition of node_a2 are not mutex to each other
-        var1=node_a1.parents    #FORTEST
+        #var1=node_a1.parents    #FORTEST
         for precond_a1 in node_a1.parents:
-            var2=node_a2.parents    #FORTEST
+            #var2=node_a2.parents    #FORTEST
             for precond_a2 in node_a2.parents:
                 if precond_a1.is_mutex(precond_a2):
                     return True
@@ -516,12 +516,12 @@ class PlanningGraph():
             mutex set in each PgNode_a in the set is appropriately updated
         """
         nodelist = list(nodeset)
-        var1=enumerate(nodelist[:-1])   #FORTEST
+        #var1=enumerate(nodelist[:-1])   #FORTEST
         for i, n1 in enumerate(nodelist[:-1]):
-            var2=nodelist[i + 1:]    #FORTEST
+            #var2=nodelist[i + 1:]    #FORTEST
             for n2 in nodelist[i + 1:]:
-                var3=self.negation_mutex(n1, n2)    #FORTEST
-                var4=self.inconsistent_support_mutex(n1, n2) #FORTEST
+                #var3=self.negation_mutex(n1, n2)    #FORTEST
+                #var4=self.inconsistent_support_mutex(n1, n2) #FORTEST
                 if self.negation_mutex(n1, n2) or self.inconsistent_support_mutex(n1, n2):
                     mutexify(n1, n2)
 
@@ -539,10 +539,10 @@ class PlanningGraph():
         :return: bool
         """
         # TODO test for negation between nodes
-        var1=node_s1.symbol #FORTEST
-        var2=node_s2.symbol #FORTEST 
-        var3=node_s1.is_pos #FORTEST
-        var4=node_s2.is_pos #FORTEST
+        #var1=node_s1.symbol #FORTEST
+        #var2=node_s2.symbol #FORTEST 
+        #var3=node_s1.is_pos #FORTEST
+        #var4=node_s2.is_pos #FORTEST
         #Check if two nodes are negated literal 
         return node_s1.symbol == node_s2.symbol and node_s1.is_pos != node_s2.is_pos
 
@@ -564,9 +564,9 @@ class PlanningGraph():
         """
         # TODO test for Inconsistent Support between nodes
         #Check if precondition of node_s1 and precondition of node_s2 are not mutex to each other
-        var1=node_s1.parents    #FORTEST
+        #var1=node_s1.parents    #FORTEST
         for precond_s1 in node_s1.parents:
-            var2=node_s2.parents    #FORTEST
+            #var2=node_s2.parents    #FORTEST
             for precond_s2 in node_s2.parents:
                 if not precond_s1.is_mutex(precond_s2):
                     return False
@@ -583,15 +583,16 @@ class PlanningGraph():
         # TODO implement
         for goal in self.problem.goal:
             goalidentified=False
-            var1=self.s_levels  #FORTEST            
+            #var1=self.s_levels  #FORTEST            
             for level in range(len(self.s_levels)):
-                var2=self.s_levels[level]   #FORTEST
+                #var2=self.s_levels[level]   #FORTEST
                 for PgNode_s in self.s_levels[level]:
                     if goal==PgNode_s.symbol and PgNode_s.is_pos:
-                        level_sum=level_sum+level #index start at 0, must be careful
-                        var3=level_sum  #FORTEST
+                        level_sum=level_sum+level #index start at 0, Notably, the cost at first level of literal should effectively be 0
+                        #var3=level_sum  #FORTEST
                         goalidentified=True
                         break
                 if goalidentified:
                     break
+        #print("levelsum {} ".format(level_sum))
         return level_sum

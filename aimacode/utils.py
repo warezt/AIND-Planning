@@ -602,19 +602,19 @@ class PriorityQueue(Queue):
         self.A = []
         self._A = defaultdict(lambda: 0)
         self.f = f
-        var1=[]  #FORTEST
-        var2=defaultdict(lambda: 0) #FORTEST
-        var3=f   #FORTEST
+        #var1=[]  #FORTEST
+        #var2=defaultdict(lambda: 0) #FORTEST
+        #var3=f   #FORTEST
 
     def append(self, item):
-        var1=self #FORTEST #Priority Queue Object
-        var2=self.A #FORTEST #Frontier 
-        var3=self.f(item) #FORTEST #Call memoize function
-        var4=(self.f(item),item) #FORTEST
-        var5=(self.A,(self.f(item),item)) #FORTEST
+        #var1=self #FORTEST #Priority Queue Object
+        #var2=self.A #FORTEST #Frontier 
+        #var3=self.f(item) #FORTEST #Call memoize function
+        #var4=(self.f(item),item) #FORTEST
+        #var5=(self.A,(self.f(item),item)) #FORTEST
         #var6=heapq.heappush(self.A, (self.f(item), item)) #FORTEST; DANGER, it will alter all variable above
         heapq.heappush(self.A, (self.f(item), item))
-        var7=self._A[item] #FORTEST
+        #var7=self._A[item] #FORTEST
         self._A[item] += 1
 
     def __len__(self):

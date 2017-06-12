@@ -96,7 +96,7 @@ class Node:
 
     def expand(self, problem):
         "List the nodes reachable in one step from this node."
-        var1=problem.actions(self.state) #FORTEST
+        #var1=problem.actions(self.state) #FORTEST
         return [self.child_node(problem, action)
                 for action in problem.actions(self.state)]
 
@@ -218,7 +218,7 @@ def best_first_graph_search(problem, f):
         if problem.goal_test(node.state):
             return node
         explored.add(node.state)
-        var1=node.expand(problem) #FORTEST
+        #var1=node.expand(problem) #FORTEST
         for child in node.expand(problem):
             if child.state not in explored and child not in frontier:
                 frontier.append(child)
